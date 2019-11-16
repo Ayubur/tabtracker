@@ -1,0 +1,32 @@
+textarea.materialize-textarea{
+    height: 14rem;
+}
+
+.card-content{
+    word-wrap: break-word;
+}
+.card .card-title{
+    font-weight: bold;
+}
+
+.pre {
+    display: block;
+    unicode-bidi: embed;
+    font-family: monospace;
+    white-space: pre;
+}
+.wrap { 
+    white-space: pre-wrap;      /* CSS3 */   
+    white-space: -moz-pre-wrap; /* Firefox */    
+    white-space: -pre-wrap;     /* Opera <7 */   
+    white-space: -o-pre-wrap;   /* Opera 7 */    
+    word-wrap: break-word;      /* IE */
+ }
+
+
+ @media only screen and (min-width: 993px){
+    nav a.button-collapse {
+        display: block;
+    }
+    }
+
