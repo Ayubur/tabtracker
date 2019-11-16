@@ -70,3 +70,64 @@ exports.viewSong = function(req,res,next){
         res.send(song);
     });
 }
+
+exports.editSong = function(req,res,next){
+
+    const id= req.params.id;
+
+
+    const title= req.body.title;
+    const artist= req.body.artist;
+    const genre= req.body.genre;
+    const album= req.body.album;
+    const albumImage= req.body.albumImage;
+    const youtubeId= req.body.youtubeId;
+    const lyrics= req.body.lyrics;
+    const tab= req.body.tab;
+    const creator = req.body._creator;
+
+    if(title ==''||artist==''||genre==''||album==''||albumImage==''||youtubeId==''||lyrics==''||tab==''){
+        return res.send({
+            "error":"**All field required to fill in"
+        })
+    }
+
+    const song={
+        title:title,
+        artist:artist,
+        genre:genre,
+        album:album,
+        albumImage:albumImage,
+        youtubeId:youtubeId,
+        lyrics:lyrics,
+        tab:tab,
+        _creator: creator
+    };
+
+
+    Song.findByIdAndUpdate(id,song,function(err,song){
+        if(err){
+            return res.send({ "error":"**Oopps..something went wrong, please try again"});
+        }
+
+        res.send({
+            "success":"**succesfully updated songs",
+            "song":song
+        })
+    });
+}
+
+exports.deleteSong = function(req,res,next){
+
+    const id = req.params.id;
+
+    Song.findByIdAndDelete(id, function(err){
+        if(err){
+            return res.send({ "error":"**Oopps..something went wrong, please try again"});
+        }
+
+        res.send({
+            "success":"**succesfully deleted songs",
+        })
+    });
+}

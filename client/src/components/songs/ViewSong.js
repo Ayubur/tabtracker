@@ -11,17 +11,28 @@ class ViewSongComponent extends Component{
     constructor(props){
         super(props);
         this.state ={
-            song:null
+            song:null,
+            error:''
         }
     }
 
     async componentDidMount(){
         const id= this.props.match.params.id;
-       const response = await axios.get(`/api/song/${id}`);
+       const response = await axios.get(`/api/songs/${id}`);
 
        this.setState({
            song: response.data[0]
        })
+    }
+
+    deleteSong = async(e)=>{
+        const id= this.props.match.params.id;
+        const response = await axios.delete(`/api/songs/${id}`);
+        if(response.data.error){
+            return this.setState({ error : response.data.error});
+           }
+      return this.props.history.push('/');
+
     }
 
     displayingSongMeta() {
@@ -42,7 +53,7 @@ class ViewSongComponent extends Component{
                     </p>    
                     <p>
                     <Link className="btn waves-effect waves-light" to={`/songs/${this.props.match.params.id}/edit`}>Edit</Link>
-                    <button className="btn waves-effect waves-light" style={buttonMargin}>Delete</button>
+                    <button className="btn waves-effect waves-light" onClick={(e)=> this.deleteSong()} style={buttonMargin}>Delete</button>
                     <button className="btn waves-effect waves-light" style={buttonMargin}>Bookmarks</button>
                     </p>        
                 </div>
@@ -98,7 +109,7 @@ class ViewSongComponent extends Component{
                                   }
                               /> */}
 
-                              <iframe src={`https://www.youtube.com/embed/${this.state.song.youtubeId}` }></iframe>
+                              <iframe src={`https://www.youtube.com/embed/${this.state.song.youtubeId}` } frameBorder="0"></iframe>
 
                           </div>
 

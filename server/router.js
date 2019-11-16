@@ -20,7 +20,9 @@ module.exports = (app)=>{
 
     //songs routes
     app.get("/api/songs",songsController.songs);
-    app.get("/api/song/:id", songsController.viewSong);
+    app.get("/api/songs/:id", songsController.viewSong);
     app.post("/api/songs/create",songsController.createSong);
+    app.put("/api/songs/:id",songsController.editSong);
+    app.delete("/api/songs/:id",songsController.deleteSong);
 
 }
