@@ -13,13 +13,19 @@ class SongsComponent extends Component{
         super(props);
 
         this.state={
+            songs:[],
+            per:2,
+            page:1,
+            totalPages: null,
+            hasMore:null,
             bookmarkedSong: null,
             viewedSongs:null
         }
     }
 
     async componentDidMount(){
-        this.props.fetchSongs();
+        this.loadSongs();
+
         if(this.props.auth){
             const viewedSongs = await axiosConfig.get(`/api/${this.props.auth._id}/songs/viewedSongs`);
             const bookmarkedSongs = await axiosConfig.get(`/api/${this.props.auth._id}/songs/bookmark`);
@@ -35,14 +41,34 @@ class SongsComponent extends Component{
                 })
             }
         }
+    }
 
-        console.log(this.state);
+     loadSongs = async()=>{
+        const {per,page,songs} = this.state;
+        const url = `/api/songs?pageNo=${page}&size=${per}`;
+        try{
+            const songresponse= await axiosConfig(url);
+            if(! songresponse.data.error){
+                this.setState({
+                    songs:[...songs,...songresponse.data.songs],
+                    hasMore:songresponse.data.has_more
+                })
+            }
 
+        }catch(e){
+            console.log(e);
+        }
+       
+    }
+    loadMore=()=>{
+        this.setState(prevState=>({
+            page:prevState.page+1
+        }),this.loadSongs)
     }
 
     displayingSongs(){
  
-             return this.props.songs.map((song,id)=>{
+             return this.state.songs.map((song,id)=>{
                return (
                          <div key={id} className="row valign-wrapper">
                          <div className="col sm2 ">
@@ -67,11 +93,20 @@ class SongsComponent extends Component{
 
     }
 
+    loadMoreButton(){
+        if(this.state.hasMore){
+            return(
+             <button style={{float:'right'}} className="btn waves-effect waves-light" onClick={this.loadMore}>Load More</button>
+            )
+        }
+        
+    }
+
     render(){
 
         if(this.state.bookmarkedSong && this.state.viewedSongs){
           
-            if(this.props.songs !=null){
+            if(this.state.songs.length !=0){
 
                 const bookmarkedSongsData = this.state.bookmarkedSong;
                 const viewedSongsData = this.state.viewedSongs;
@@ -133,6 +168,7 @@ class SongsComponent extends Component{
                      <div className="col s12 m7">
                         <div className="card-panel grey lighten-5 z-depth-1">
                             {this.displayingSongs()}
+                             {this.loadMoreButton()}
                         </div>
                     </div>
                     </div>
@@ -147,13 +183,14 @@ class SongsComponent extends Component{
              }
              
         }else{
-            if(this.props.songs !=null){
+            if(this.state.songs.length !=0){
     
                 return(
                     <div className="row">
                      <div className="col s12 m12">
                         <div className="card-panel grey lighten-5 z-depth-1">
                             {this.displayingSongs()}
+                            {this.loadMoreButton()}
                         </div>
                     </div>
                     </div>
@@ -174,7 +211,7 @@ class SongsComponent extends Component{
 }
 
 function mapStateToProps(state){
-    return { songs: state.songs.songs,auth:state.auth.user };
+    return {auth:state.auth.user };
 }
 
 export default connect(mapStateToProps,actions)(SongsComponent);

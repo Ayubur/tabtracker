@@ -9,6 +9,10 @@ textarea.materialize-textarea{
     font-weight: bold;
 }
 
+.card-panel{
+    overflow: hidden;
+}
+
 .pre {
     display: block;
     unicode-bidi: embed;

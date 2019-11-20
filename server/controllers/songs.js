@@ -2,13 +2,33 @@ const Song = require('../models/songs');
 
 exports.songs= function(req, res, next){
 
-    Song.find({}, function(err, songs){
+  var pageNo = parseInt(req.query.pageNo)
+  var size = parseInt(req.query.size)
+  var query = {}
+  if(pageNo < 0 || pageNo === 0) {
+        response = {"error" : true,"message" : "invalid page number, should start with 1"};
+        return res.json(response)
+  }
+  query.skip = size * (pageNo - 1)
+  query.limit = size
+  // Find some documents
+       Song.count({},function(err,totalCount) {
+             if(err) {
+               response = {"error" : true,"message" : "Error fetching data"}
+             }
+         Song.find({},{},query,function(err,data) {
+              // Mongo command to fetch all data from collection.
+            if(err) {
+                response = {"error" : true,"message" : "Error fetching data"};
+            } else {
+                var totalPages = Math.ceil(totalCount / size);
+                var hasMore= (totalCount<=size*pageNo) ? false : true;
+                response = {"error" : false,"per":size,"page":pageNo,"has_more":hasMore,"total_pages":totalPages,"songs" : data};
+            }
+            res.json(response);
+         });
+       })
 
-        if(err){
-           return res.send({ "error":"**Oopps..something went wrong, please try again"});
-        }
-        res.send(songs);
-    });
 }
 
 exports.createSong= function(req,res,next){

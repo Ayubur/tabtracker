@@ -109,18 +109,18 @@ export const createSong = (formProps,callback)=> async dispatch=>{
     }
 }
 
-export const fetchSongs = ()=> async dispatch=>{
-    try{
-        const response = await axiosConfig.get('/api/songs');
-         dispatch({
-            type: FETCH_SONG,
-            payload:response.data
-        })
-    }catch(e){
-        dispatch({
-            type: SONG_ERROR,
-            payload: "ERROR in fetching songs...."
-        })
-    }
+// export const fetchSongs = ()=> async dispatch=>{
+//     try{
+//         const response = await axiosConfig.get('/api/songs');
+//          dispatch({
+//             type: FETCH_SONG,
+//             payload:response.data
+//         })
+//     }catch(e){
+//         dispatch({
+//             type: SONG_ERROR,
+//             payload: "ERROR in fetching songs...."
+//         })
+//     }
 
-}
+// }
