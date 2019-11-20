@@ -20,7 +20,20 @@ const userSchema = new Schema({
     password:{
         type:String,
         required:true
-    }
+    },
+    bookmarkedSongs:[
+        {
+            type:Schema.Types.ObjectId,
+            ref:'songs'
+        }
+    ],
+    recentlyViewed:[
+        {
+            type:Schema.Types.ObjectId,
+            ref:'songs'
+        }
+    ]
+    
 })
 
 userSchema.pre('save', function (next) { 

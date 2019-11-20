@@ -3,17 +3,41 @@ import { Link} from 'react-router-dom'
 import Loader from 'react-loader';
 import {connect } from 'react-redux';
 import * as actions from '../../actions';
+import axiosConfig from '../../axiosConfig';
 
-
+import DataTable from 'react-data-table-component';
 
 class SongsComponent extends Component{
 
     constructor(props){
         super(props);
+
+        this.state={
+            bookmarkedSong: null,
+            viewedSongs:null
+        }
     }
 
-    componentDidMount(){
+    async componentDidMount(){
         this.props.fetchSongs();
+        if(this.props.auth){
+            const viewedSongs = await axiosConfig.get(`/api/${this.props.auth._id}/songs/viewedSongs`);
+            const bookmarkedSongs = await axiosConfig.get(`/api/${this.props.auth._id}/songs/bookmark`);
+    
+            if(!bookmarkedSongs.data.error){
+                this.setState({
+                    bookmarkedSong:bookmarkedSongs.data
+                })
+            }
+            if(!viewedSongs.data.error){
+                this.setState({
+                    viewedSongs:viewedSongs.data
+                })
+            }
+        }
+
+        console.log(this.state);
+
     }
 
     displayingSongs(){
@@ -44,33 +68,113 @@ class SongsComponent extends Component{
     }
 
     render(){
-        
-        if(this.props.songs !=null){
-    
-            return(
-                <div className="row">
-                 <div className="col s12 m8  offset-m2">
-                    <div className="card-panel grey lighten-5 z-depth-1">
-                        {this.displayingSongs()}
-                    </div>
-                </div>
-                </div>
 
-            );
+        if(this.state.bookmarkedSong && this.state.viewedSongs){
+          
+            if(this.props.songs !=null){
+
+                const bookmarkedSongsData = this.state.bookmarkedSong;
+                const viewedSongsData = this.state.viewedSongs;
+                    const bookmarkcolumns = [
+                    {
+                        name: 'Title',
+                        selector: 'title',
+                        sortable: true,
+                    },
+                    {
+                        name: 'Album',
+                        selector: 'album',
+                        sortable: true,
+                        right: true,
+                    },
+                    ];
+
+                    const viewSongcolumns = [
+                        {
+                            name: 'Title',
+                            selector: 'title',
+                            sortable: true,
+                        },
+                        {
+                            name: 'Album',
+                            selector: 'album',
+                            sortable: true,
+                            right: true,
+                        },
+                        ];
+    
+                return(
+                    <div className="row">
+                        <div className="col s12 m5">
+                        <div className="row">
+                            <div className="col s12 m12">
+                            <div className="card-panel grey lighten-5 z-depth-1">
+                                    <DataTable
+                                        title="Recently viewed Songs"
+                                        columns={viewSongcolumns}
+                                        data={viewedSongsData}
+                                       
+                                    />
+                        </div>
+                            </div>
+
+                       <div className="col s12 m12">
+                            <div className="card-panel grey lighten-5 z-depth-1">
+                                    <DataTable
+                                        title="Bookmarked Songs"
+                                        columns={bookmarkcolumns}
+                                        data={bookmarkedSongsData}
+                                    />
+                        </div>
+                            </div>
+                        </div>
+
+                        </div>
+                     <div className="col s12 m7">
+                        <div className="card-panel grey lighten-5 z-depth-1">
+                            {this.displayingSongs()}
+                        </div>
+                    </div>
+                    </div>
+    
+                );
+           
        
-   
-         }else{
-            return(
-                <Loader />
-            );
-         }
-         
+             }else{
+                return(
+                    <Loader />
+                );
+             }
+             
+        }else{
+            if(this.props.songs !=null){
+    
+                return(
+                    <div className="row">
+                     <div className="col s12 m12">
+                        <div className="card-panel grey lighten-5 z-depth-1">
+                            {this.displayingSongs()}
+                        </div>
+                    </div>
+                    </div>
+    
+                );
+           
+       
+             }else{
+                return(
+                    <Loader />
+                );
+             }
+             
+        }
+        
       
     }
 }
 
 function mapStateToProps(state){
-    return { songs: state.songs.songs };
+    return { songs: state.songs.songs,auth:state.auth.user };
 }
 
 export default connect(mapStateToProps,actions)(SongsComponent);

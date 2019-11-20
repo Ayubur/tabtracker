@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import Loader from 'react-loader';
 import axios from 'axios';
+import axiosConfig from '../../axiosConfig';
 
 
 class EditSongComponent extends Component{
@@ -18,7 +19,7 @@ class EditSongComponent extends Component{
         this.shouldNavigateAway();
         const id= this.props.match.params.id;
 
-        const response = await axios.get(`/api/songs/${id}`);
+        const response = await axiosConfig.get(`/api/songs/${id}`);
 
         if(response.data.error){
             return this.setState({ error :'Something went wrong...please try aganin'});
@@ -60,7 +61,11 @@ class EditSongComponent extends Component{
    onSubmit = async (e) => {
        e.preventDefault();
        const id= this.props.match.params.id;
-       const response = await axios.put(`/api/songs/${id}`,this.state.song);
+       const response = await axiosConfig.put(`/api/songs/${id}`,this.state.song,{
+            headers:{
+                authorization: this.props.auth.token
+            }
+       });
        if(response.data.error){
         return this.setState({ error : response.data.error});
        }

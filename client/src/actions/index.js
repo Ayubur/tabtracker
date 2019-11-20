@@ -4,11 +4,13 @@ import {
      
 import axios from 'axios';
 
+import axiosConfig from '../axiosConfig';
+
 export const signup =(formProps,callback)=> async dispatch =>{
 
     try{
         
-        const response = await axios.post('/api/signup',formProps);
+        const response = await axiosConfig.post('/api/signup',formProps);
 
         if(response.data.error){
             dispatch({ type: AUTH_ERROR, payload:response.data.error});
@@ -41,7 +43,7 @@ export const signup =(formProps,callback)=> async dispatch =>{
 export const signin =(formProps,callback)=> async dispatch =>{
 
     try{
-        const response = await axios.post('/api/signin',formProps);
+        const response = await axiosConfig.post("/api/signin",formProps);
 
         dispatch({
             type: AUTH_USER,
@@ -76,7 +78,13 @@ export const signout = ()=> dispatch=>{
 export const createSong = (formProps,callback)=> async dispatch=>{
     try{
 
-        const response = await axios.post('/api/songs/create',formProps);
+        const token = JSON.parse(localStorage.getItem("state")).auth.user.token;
+
+        const response = await axiosConfig.post('/api/songs/create',formProps,{
+            headers:{
+                authorization: token
+            }
+        });
         
         if(response.data.error){
             dispatch({
@@ -103,7 +111,7 @@ export const createSong = (formProps,callback)=> async dispatch=>{
 
 export const fetchSongs = ()=> async dispatch=>{
     try{
-        const response = await axios.get('/api/songs');
+        const response = await axiosConfig.get('/api/songs');
          dispatch({
             type: FETCH_SONG,
             payload:response.data

@@ -15,6 +15,8 @@ require('./connection');
 app.use(cors());
 app.use(morgan('combined'));
 app.use(bodyParser.json({urlencoded: true}));
+app.use(bodyParser.json()) // parse application/json
+
 router(app);
 
 

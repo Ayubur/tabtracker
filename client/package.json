@@ -9,6 +9,7 @@
     "lodash.throttle": "^4.1.1",
     "materialize-css": "^1.0.0",
     "react": "^16.9.0",
+    "react-data-table-component": "^3.9.0",
     "react-dom": "^16.9.0",
     "react-loader": "^2.4.5",
     "react-redux": "^7.1.1",
@@ -18,7 +19,8 @@
     "redux": "^4.0.4",
     "redux-devtools-extension": "^2.13.8",
     "redux-form": "^8.2.6",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "styled-components": "^4.4.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -29,7 +31,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "proxy":"http://localhost:3090",
+  "proxy": "http://localhost:3090",
   "browserslist": {
     "production": [
       ">0.2%",
