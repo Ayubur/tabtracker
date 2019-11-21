@@ -4,7 +4,7 @@ import Loader from 'react-loader';
 import {connect } from 'react-redux';
 import * as actions from '../../actions';
 import axiosConfig from '../../axiosConfig';
-
+import _ from 'lodash';
 import DataTable from 'react-data-table-component';
 
 class SongsComponent extends Component{
@@ -14,12 +14,13 @@ class SongsComponent extends Component{
 
         this.state={
             songs:[],
-            per:2,
+            per:10,
             page:1,
             totalPages: null,
             hasMore:null,
             bookmarkedSong: null,
-            viewedSongs:null
+            viewedSongs:null,
+            search:''
         }
     }
 
@@ -43,9 +44,15 @@ class SongsComponent extends Component{
         }
     }
 
-     loadSongs = async()=>{
+      updateSearch(e){
+          this.setState({
+              search: e.target.value.substr(0,20)
+          });
+      }
+
+     loadSongs = async(search)=>{
         const {per,page,songs} = this.state;
-        const url = `/api/songs?pageNo=${page}&size=${per}`;
+            var url = `/api/songs?pageNo=${page}&size=${per}`;
         try{
             const songresponse= await axiosConfig(url);
             if(! songresponse.data.error){
@@ -67,8 +74,14 @@ class SongsComponent extends Component{
     }
 
     displayingSongs(){
+
+        let filteredsongs = this.state.songs.filter(
+                (song)=>{
+                    return song.title.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
+                }
+        );
  
-             return this.state.songs.map((song,id)=>{
+             return filteredsongs.map((song,id)=>{
                return (
                          <div key={id} className="row valign-wrapper">
                          <div className="col sm2 ">
@@ -131,23 +144,32 @@ class SongsComponent extends Component{
                             sortable: true,
                         },
                         {
-                            name: 'Album',
-                            selector: 'album',
+                            name: 'Artist',
+                            selector: 'artist',
                             sortable: true,
                             right: true,
                         },
                         ];
+
+                        const handleChange = (state) => {
+                            // You can use setState or dispatch with something like Redux so we can use the retrieved data
+                            console.log('Selected Rows: ', state.selectedRows);
+                          };
     
                 return(
                     <div className="row">
                         <div className="col s12 m5">
-                        <div className="row">
+                        <div className="row searchMargin">
                             <div className="col s12 m12">
                             <div className="card-panel grey lighten-5 z-depth-1">
                                     <DataTable
                                         title="Recently viewed Songs"
                                         columns={viewSongcolumns}
                                         data={viewedSongsData}
+                                        striped = {true}
+                                        pagination={true}
+                                        Clicked
+                                        Selected={this.handleChange}
                                        
                                     />
                         </div>
@@ -159,6 +181,10 @@ class SongsComponent extends Component{
                                         title="Bookmarked Songs"
                                         columns={bookmarkcolumns}
                                         data={bookmarkedSongsData}
+                                        striped = {true}
+                                        pagination={true}
+                                        Clicked
+                                        Selected={this.handleChange}
                                     />
                         </div>
                             </div>
@@ -166,6 +192,13 @@ class SongsComponent extends Component{
 
                         </div>
                      <div className="col s12 m7">
+                         <div className="card-body grey lighten-5 z-depth-1">
+                         <div className="row searchMargin">
+                            <div className="input-field col s12 m12 ">
+                               <input name="serach" type="text" onChange={e =>this.updateSearch(e)} className="validate" placeholder="Search Song"/>
+                            </div>
+                        </div>
+                         </div>
                         <div className="card-panel grey lighten-5 z-depth-1">
                             {this.displayingSongs()}
                              {this.loadMoreButton()}
@@ -187,7 +220,14 @@ class SongsComponent extends Component{
     
                 return(
                     <div className="row">
-                     <div className="col s12 m12">
+                     <div className="col s12 m8 offset-m2">
+                     <div className="card-body grey lighten-5 z-depth-1">
+                         <div className="row searchMargin">
+                            <div className="input-field col s12 m12">
+                               <input name="serach" type="text" onChange={e => this.updateSearch(e)} className="validate" placeholder="Search Song"/>
+                            </div>
+                        </div>
+                         </div>
                         <div className="card-panel grey lighten-5 z-depth-1">
                             {this.displayingSongs()}
                             {this.loadMoreButton()}

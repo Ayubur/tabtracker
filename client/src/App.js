@@ -45,7 +45,7 @@ const App = () => {
         <BrowserRouter>
           <div>
             <Navbar />
-            <Route exact path="/" component={Songs} />
+            <Route exact path="/" component={Songs} name="index"/>
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/logout" component={Logout} />
