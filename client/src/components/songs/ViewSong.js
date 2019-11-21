@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import axios from 'axios';
 import Loader from 'react-loader';
-import Youtube from 'react-youtube';
 import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -31,14 +29,26 @@ class ViewSongComponent extends Component{
         const song_id = this.props.match.params.id;
         const user_id= this.props.state.user._id;
 
-        const isBookmarked = await axiosConfig.post('/api/song/bookmarks/check',{
-            user_id: user_id,
-            song_id:song_id
-        })
+        try{
+            const isBookmarked = await axiosConfig.post('/api/song/bookmarks/check',{
+                
+                    user_id: user_id,
+                    song_id:song_id
+                },{
+                    headers:{
+                        authorization:this.props.state.user.token
+                    },
+                })
 
+            
         this.setState({
             isBookmarked:isBookmarked.data.match
         })
+
+        }catch(e){
+            console.log(e);
+        }
+
 
      }
     }
@@ -50,13 +60,11 @@ class ViewSongComponent extends Component{
     
             const response = await axiosConfig.put(`/api/songs/${song_id}/viewedSong`,{
                 userId:user_id
+            },{
+                headers:{
+                    authorization:this.props.state.user.token
+                }
             });
-
-            // const isBookmarked = await axiosConfig.post('/api/song/bookmarks/check',{
-            //     user_id: user_id,
-            //     song_id:song_id
-            // })
-            // console.log(isBookmarked.data);
         }
     }
 
@@ -78,14 +86,25 @@ class ViewSongComponent extends Component{
         const song_id = this.props.match.params.id;
         const user_id= this.props.state.user._id;
 
-        const response = await axios.put(`/api/songs/${song_id}/bookmark`,{
-            userId:user_id
-        });
+        try{
+            const response = await axiosConfig.put(`/api/songs/${song_id}/bookmark`,
+            {
+                userId:user_id
+            },{
+                headers:{
+                    authorization:this.props.state.user.token
+                }
+            });
 
+            
         if(!response.data.error){
             this.setState({
                 isBookmarked:true
             })
+        }
+
+        }catch(e){
+            console.log(e);
         }
     }
 
@@ -93,20 +112,31 @@ class ViewSongComponent extends Component{
         const song_id = this.props.match.params.id;
         const user_id= this.props.state.user._id;
 
-        const response = await axios.put(`/api/songs/${song_id}/unbookmark`,{
-            userId:user_id
-        });
+        try{
+            const response = await axiosConfig.put(`/api/songs/${song_id}/unbookmark`,
+            {
+                userId:user_id
+            },{
+                headers:{
+                    authorization:this.props.state.user.token
+                }
+               
+            });
 
+            
         if(!response.data.error){
             this.setState({
                 isBookmarked:false
             })
         }
+
+        }catch(e){
+            console.log(e);
+        }
+
     }
 
     displayingSongMeta() {
-
-        console.log(this.state);
         if(this.props.state.user && this.state.song._creator === this.props.state.user._id && !this.state.isBookmarked){
             return (
                 <div className="row valign-wrapper">
@@ -252,16 +282,6 @@ class ViewSongComponent extends Component{
                       </div>
                       <div className="col sm12 m6">
                           <div className="card-panel">
-                              {/* <Youtube
-                                  videoId={this.state.song.youtubeId}
-                                  opts={
-                                      {
-                                          height:'250',
-                                          width:'480'
-                                      }
-                                  }
-                              /> */}
-
                               <iframe src={`https://www.youtube.com/embed/${this.state.song.youtubeId}` } frameBorder="0"></iframe>
 
                           </div>

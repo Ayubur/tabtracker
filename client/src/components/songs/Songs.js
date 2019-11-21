@@ -4,7 +4,6 @@ import Loader from 'react-loader';
 import {connect } from 'react-redux';
 import * as actions from '../../actions';
 import axiosConfig from '../../axiosConfig';
-import _ from 'lodash';
 import DataTable from 'react-data-table-component';
 
 class SongsComponent extends Component{
@@ -14,7 +13,7 @@ class SongsComponent extends Component{
 
         this.state={
             songs:[],
-            per:10,
+            per:20,
             page:1,
             totalPages: null,
             hasMore:null,
@@ -28,8 +27,20 @@ class SongsComponent extends Component{
         this.loadSongs();
 
         if(this.props.auth){
-            const viewedSongs = await axiosConfig.get(`/api/${this.props.auth._id}/songs/viewedSongs`);
-            const bookmarkedSongs = await axiosConfig.get(`/api/${this.props.auth._id}/songs/bookmark`);
+
+            try{
+                const viewedSongs = await axiosConfig.get(`/api/${this.props.auth._id}/songs/viewedSongs`,{
+                    headers:{
+                        authorization:this.props.auth.token
+                    }
+                });
+                 const bookmarkedSongs = await axiosConfig.get(`/api/${this.props.auth._id}/songs/bookmark`,{
+                    headers:{
+                        authorization:this.props.auth.token
+                    }
+                 });
+
+                           
     
             if(!bookmarkedSongs.data.error){
                 this.setState({
@@ -41,6 +52,11 @@ class SongsComponent extends Component{
                     viewedSongs:viewedSongs.data
                 })
             }
+
+            }catch(e){
+                console.log(e);
+            }
+  
         }
     }
 
@@ -89,7 +105,7 @@ class SongsComponent extends Component{
                          </div>
 
                          <div className="col sm10">
-                         <span style={{ fontSize:24}}>{song.title}</span><br/> 
+                         <span style={{ fontSize:21}}>{song.title}</span><br/> 
                                 <p>
                                 <span><b>artist: </b> {song.artist}</span> <br/>
                                     
@@ -130,8 +146,8 @@ class SongsComponent extends Component{
                         sortable: true,
                     },
                     {
-                        name: 'Album',
-                        selector: 'album',
+                        name: 'Artist',
+                        selector: 'artist',
                         sortable: true,
                         right: true,
                     },
@@ -150,11 +166,6 @@ class SongsComponent extends Component{
                             right: true,
                         },
                         ];
-
-                        const handleChange = (state) => {
-                            // You can use setState or dispatch with something like Redux so we can use the retrieved data
-                            console.log('Selected Rows: ', state.selectedRows);
-                          };
     
                 return(
                     <div className="row">
@@ -168,8 +179,6 @@ class SongsComponent extends Component{
                                         data={viewedSongsData}
                                         striped = {true}
                                         pagination={true}
-                                        Clicked
-                                        Selected={this.handleChange}
                                        
                                     />
                         </div>
@@ -183,8 +192,6 @@ class SongsComponent extends Component{
                                         data={bookmarkedSongsData}
                                         striped = {true}
                                         pagination={true}
-                                        Clicked
-                                        Selected={this.handleChange}
                                     />
                         </div>
                             </div>

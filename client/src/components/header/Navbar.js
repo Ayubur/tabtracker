@@ -7,38 +7,50 @@ class Navbar extends React.Component {
   }
 
   render(){
-    if(this.props.auth == null){
+    if(!this.props.auth){
       return (
         <div className="navbar-fixed">
-        <nav>
+        <nav className="nav-extended">
         <div className="nav-wrapper">
-            <a href="/" className="brand-logo">tabtracker</a>
-          <ul id="nav-mobile" className="right hide-on-med-and-down">
-            <li><a href="/login">Login</a></li>
+        <a href="#" data-activates="slide-out" className="button-collapse"><i className="material-icons">menu</i></a>
+      <a href="/" className="brand-logo">tabtracker</a>
+      <ul id="nav-mobile" className="right hide-on-med-and-down">
+      <li><a href="/login">Login</a></li>
+      <li><a href="/register">Register</a></li>
+
+      </ul>
+      <ul id="slide-out" className="side-nav">
+      <li><a href="/login">Login</a></li>
             <li><a href="/register">Register</a></li>
-          </ul>
-        </div>
-      </nav>
-      </div>
+      </ul>
+    </div>
+  </nav>
+  </div>
 
       );
     }else{
       return (
         <div className="navbar-fixed">
-              <nav >
+              <nav className="nav-extended">
         <div className="nav-wrapper">
-            <div className="container">
-            <a href="/" className="brand-logo">tabtracker</a>
-          <ul id="nav-mobile" className="right hide-on-med-and-down">
-            <li><a href="/song/create">Add Song</a></li>
-            <li><a href="/logout">logout</a></li>
-          </ul>
+           <a href="#" data-activates="slide-out" className="button-collapse"><i className="material-icons">menu</i></a>
+      <a href="/" className="brand-logo">tabtracker</a>
+      <ul id="nav-mobile" className="right hide-on-med-and-down">
+      <li><a href="/song/create">Add Song</a></li>
+    <li><a href="/logout">logout</a></li>
+
+      </ul>
+      <ul id="slide-out" className="side-nav">
+      <li><a href="/song/create">Add Song</a></li>
+    <li><a href="/logout">logout</a></li>
+      </ul>
             </div>
-        </div>
       </nav>
         </div>
       );
     }
+
+ 
   }
  
 

@@ -26,7 +26,7 @@ exports.songs= function(req, res, next){
                 response = {"error" : false,"per":size,"page":pageNo,"has_more":hasMore,"total_pages":totalPages,"songs" : data};
             }
             res.json(response);
-         });
+         }).sort({'_id':-1});
        })
 
 }

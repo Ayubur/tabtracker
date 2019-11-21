@@ -11,7 +11,7 @@ exports.findAllSongs = function(req,res,next){
             if(err){
                 return res.send({ "error":"**Oopps..something went wrong, please try again"});
             }else{
-                res.send(users.bookmarkedSongs);
+                res.send(users.bookmarkedSongs.reverse());
             }
         });
 }

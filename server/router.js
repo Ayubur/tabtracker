@@ -29,14 +29,14 @@ module.exports = (app)=>{
     app.delete("/api/songs/:id",requireAuth,songsController.deleteSong);
 
     //bookmarks routes
-    app.get("/api/:id/songs/bookmark", bookmarkController.findAllSongs);
-    app.put("/api/songs/:id/bookmark",bookmarkController.saveBookmarks);
-    app.post("/api/song/bookmarks/check",bookmarkController.checkBookmarks);
-    app.put("/api/songs/:id/unbookmark",bookmarkController.deleteBookmarks);
+    app.get("/api/:id/songs/bookmark",requireAuth,bookmarkController.findAllSongs);
+    app.put("/api/songs/:id/bookmark",requireAuth,bookmarkController.saveBookmarks);
+    app.post("/api/song/bookmarks/check",requireAuth,bookmarkController.checkBookmarks);
+    app.put("/api/songs/:id/unbookmark",requireAuth,bookmarkController.deleteBookmarks);
 
     //recent view song routes
-    app.get("/api/:id/songs/viewedSongs", ViewController.findAllViewedSongs);
-    app.put("/api/songs/:id/viewedSong",ViewController.saveViewedSongs);
+    app.get("/api/:id/songs/viewedSongs",requireAuth,ViewController.findAllViewedSongs);
+    app.put("/api/songs/:id/viewedSong",requireAuth,ViewController.saveViewedSongs);
     
 
 }

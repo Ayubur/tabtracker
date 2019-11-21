@@ -10,7 +10,7 @@ exports.findAllViewedSongs = function(req,res,next){
             if(err){
                 return res.send({ "error":"**Oopps..something went wrong, please try again"});
             }else{
-                res.send(users.recentlyViewed);
+                res.send(users.recentlyViewed.reverse());
             }
         });
 }

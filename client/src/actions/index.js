@@ -59,7 +59,7 @@ export const signin =(formProps,callback)=> async dispatch =>{
         callback();
 
     }catch(e){
-        dispatch({ type: AUTH_ERROR, payload:"**Oopps..something went wrong, please try again"});
+        dispatch({ type: AUTH_ERROR, payload:"**Oopps..email and password don not match, try again"});
 
     }
 
