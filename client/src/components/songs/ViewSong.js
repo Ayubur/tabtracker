@@ -280,7 +280,7 @@ class ViewSongComponent extends Component{
                            {this.displayingSongMeta()}
                        </div>
                       </div>
-                      <div className="col sm12 m6">
+                      <div className="col s12 m6">
                           <div className="card-panel">
                               <iframe src={`https://www.youtube.com/embed/${this.state.song.youtubeId}` } frameBorder="0"></iframe>
 
@@ -303,7 +303,7 @@ class ViewSongComponent extends Component{
                         </div>
                     </div>
                     </div>
-                    <div className="col sm12 m6">
+                    <div className="col s12 m6">
                     <div className="card grey lighten-5 z-depth-1">
                         <div className="card-title">Guitar Tabs</div>
                         <div className="card-content">

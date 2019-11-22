@@ -96,7 +96,6 @@ class CreateSongComponent extends Component{
 
                             </div>
                         </div>
-                        <p style={successMsg}>{this.props.successMessage}</p>
                         <p style={errMsg}>{ this.props.errorMessage}</p>
                         <button className="btn waves-effect waves-light" type="submit" name="action">Save Song
                         </button>
@@ -113,7 +112,6 @@ class CreateSongComponent extends Component{
 }
 
 function mapStateToProps(state){
-    //console.log(state);
   return {successMessage: state.songs.successMsg,errorMessage: state.songs.errorMsg, auth:state.auth.user};
 }
 

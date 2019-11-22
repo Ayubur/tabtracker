@@ -1,9 +1,7 @@
 import {
      AUTH_USER, AUTH_ERROR,AUTH_LOGOUT,
-     CREATE_SONG, SONG_ERROR, FETCH_SONG} from './types';
+     CREATE_SONG, SONG_ERROR} from './types';
      
-import axios from 'axios';
-
 import axiosConfig from '../axiosConfig';
 
 export const signup =(formProps,callback)=> async dispatch =>{
@@ -108,19 +106,3 @@ export const createSong = (formProps,callback)=> async dispatch=>{
 
     }
 }
-
-// export const fetchSongs = ()=> async dispatch=>{
-//     try{
-//         const response = await axiosConfig.get('/api/songs');
-//          dispatch({
-//             type: FETCH_SONG,
-//             payload:response.data
-//         })
-//     }catch(e){
-//         dispatch({
-//             type: SONG_ERROR,
-//             payload: "ERROR in fetching songs...."
-//         })
-//     }
-
-// }

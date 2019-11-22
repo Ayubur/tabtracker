@@ -6,7 +6,7 @@ import songs from "./songs";
 export default combineReducers({
 
     auth:auth,
-    songs: songs,
+    songs:songs,
     form:formReducer
 
 });

@@ -13,7 +13,7 @@ class SongsComponent extends Component{
 
         this.state={
             songs:[],
-            per:20,
+            per:15,
             page:1,
             totalPages: null,
             hasMore:null,
@@ -125,7 +125,7 @@ class SongsComponent extends Component{
     loadMoreButton(){
         if(this.state.hasMore){
             return(
-             <button style={{float:'right'}} className="btn waves-effect waves-light" onClick={this.loadMore}>Load More</button>
+             <button style={{float:'right',backgroundColor:'#909695',opacity:0.6}} className="btn" onClick={this.loadMore}>Load More</button>
             )
         }
         
@@ -135,7 +135,7 @@ class SongsComponent extends Component{
 
         if(this.state.bookmarkedSong && this.state.viewedSongs){
           
-            if(this.state.songs.length !=0){
+            if(this.state.songs.length !==0){
 
                 const bookmarkedSongsData = this.state.bookmarkedSong;
                 const viewedSongsData = this.state.viewedSongs;
@@ -223,7 +223,7 @@ class SongsComponent extends Component{
              }
              
         }else{
-            if(this.state.songs.length !=0){
+            if(this.state.songs.length !==0){
     
                 return(
                     <div className="row">
