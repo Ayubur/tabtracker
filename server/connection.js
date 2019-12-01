@@ -1,10 +1,9 @@
-
 const mongoose = require('mongoose');
+const config = require('./config');
 
 // mongodb setup
-mongoose.connect('mongodb://admin:myq85sjt@ds211708.mlab.com:11708/tabtracker',{useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(config.database,{useNewUrlParser: true, useUnifiedTopology: true});
 
-//mongoose.connect('mongodb://127.0.0.1:27017/auth', {useNewUrlParser: true, useUnifiedTopology: true});
 //Get the default connection
 const db = mongoose.connection;
 
