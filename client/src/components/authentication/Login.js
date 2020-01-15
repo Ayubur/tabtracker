@@ -17,6 +17,10 @@ class LoginComponent extends Component{
         });
     }
 
+    componentDidMount(){
+        this.props.removeError();
+    }
+
     render(){
         const {handleSubmit} = this.props;
         return(
@@ -67,7 +71,8 @@ export default compose(
 const styles ={
     errMsg:{
         color: 'red',
-        fontSize: 21
+        fontSize:'1.2rem',
+        marginBottom:22
     }
 }
 

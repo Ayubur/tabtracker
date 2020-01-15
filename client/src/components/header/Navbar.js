@@ -12,8 +12,10 @@ class Navbar extends React.Component {
         <div className="navbar-fixed">
         <nav className="nav-extended">
         <div className="nav-wrapper">
-        <a href="#" data-activates="slide-out" className="button-collapse"><i className="material-icons">menu</i></a>
+        <a href="#" data-activates="slide-out" className="button-collapse hide-on-large-only"><i className="material-icons">menu</i></a>
+        <div className="container">
       <a href="/" className="brand-logo">tabtracker</a>
+ 
       <ul id="nav-mobile" className="right hide-on-med-and-down">
       <li><a href="/login">Login</a></li>
       <li><a href="/register">Register</a></li>
@@ -24,6 +26,7 @@ class Navbar extends React.Component {
             <li><a href="/register">Register</a></li>
       </ul>
     </div>
+    </div>
   </nav>
   </div>
 
@@ -31,20 +34,25 @@ class Navbar extends React.Component {
     }else{
       return (
         <div className="navbar-fixed">
-              <nav className="nav-extended">
+        <nav>
         <div className="nav-wrapper">
-           <a href="#" data-activates="slide-out" className="button-collapse"><i className="material-icons">menu</i></a>
-      <a href="/" className="brand-logo">tabtracker</a>
-      <ul id="nav-mobile" className="right hide-on-med-and-down">
-      <li><a href="/song/create">Add Song</a></li>
-    <li><a href="/logout">logout</a></li>
+ 
+              <a href="#" data-activates="slide-out" className="button-collapse hide-on-large-only"><i className="material-icons">menu</i></a>
+           <div className="container">
+           <a href="/" className="brand-logo">tabtracker</a>
 
-      </ul>
-      <ul id="slide-out" className="side-nav">
-      <li><a href="/song/create">Add Song</a></li>
-    <li><a href="/logout">logout</a></li>
-      </ul>
-            </div>
+            <ul id="nav-mobile" className="right hide-on-med-and-down">
+            <li><a href="/song/create">Add Song</a></li>
+             <li><a href="/logout">logout</a></li>
+
+            </ul>
+
+            <ul id="slide-out" className="side-nav">
+            <li><a href="/song/create">Add Song</a></li>
+          <li><a href="/logout">logout</a></li>
+            </ul>
+             </div> 
+          </div>
       </nav>
         </div>
       );

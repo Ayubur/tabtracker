@@ -1,25 +1,28 @@
 import React, {Component} from 'react';
+import NetworkError from '../NetworkError';
 import { Link} from 'react-router-dom'
 import Loader from 'react-loader';
 import {connect } from 'react-redux';
 import * as actions from '../../actions';
 import axiosConfig from '../../axiosConfig';
 import DataTable from 'react-data-table-component';
+import Collapsible from 'react-collapsible';
 
 class SongsComponent extends Component{
 
     constructor(props){
         super(props);
-
         this.state={
             songs:[],
-            per:15,
+            per:1000,
             page:1,
             totalPages: null,
             hasMore:null,
+            mySongs:null,
             bookmarkedSong: null,
             viewedSongs:null,
-            search:''
+            search:'',
+            networkError:false
         }
     }
 
@@ -40,8 +43,17 @@ class SongsComponent extends Component{
                     }
                  });
 
-                           
-    
+                 const mySongs = await axiosConfig.get(`/api/${this.props.auth._id}/mysongs`,{
+                    headers:{
+                        authorization:this.props.auth.token
+                    }
+                 });
+
+           if(!mySongs.data.error){
+                    this.setState({
+                        mySongs:mySongs.data
+                    })
+             }
             if(!bookmarkedSongs.data.error){
                 this.setState({
                     bookmarkedSong:bookmarkedSongs.data
@@ -54,9 +66,13 @@ class SongsComponent extends Component{
             }
 
             }catch(e){
-                console.log(e);
+                this.setState({
+                    networkError:true
+                })
             }
   
+        
+        
         }
     }
 
@@ -79,7 +95,9 @@ class SongsComponent extends Component{
             }
 
         }catch(e){
-            console.log(e);
+            this.setState({
+                networkError:true
+            })
         }
        
     }
@@ -88,6 +106,7 @@ class SongsComponent extends Component{
             page:prevState.page+1
         }),this.loadSongs)
     }
+
 
     displayingSongs(){
 
@@ -100,20 +119,18 @@ class SongsComponent extends Component{
              return filteredsongs.map((song,id)=>{
                return (
                          <div key={id} className="row valign-wrapper">
-                         <div className="col sm2 ">
-                           <img src={song.albumImage} className="responsive-image" height="100px" width="130px" alt="Album Image"/>
-                         </div>
+                         <div className="block">
+                             <img src={song.albumImage} className="responsive-image" alt={song.title} />
 
-                         <div className="col sm10">
-                         <span style={{ fontSize:21}}>{song.title}</span><br/> 
+                             <div>
+                                <h2>{song.title}</h2>
+                                <p>{song.artist}
+                                </p>
                                 <p>
-                                <span><b>artist: </b> {song.artist}</span> <br/>
-                                    
-                                </p>  
-                             <p>
-                             <Link className="btn waves-effect waves-light" to={`/songs/${song._id}`}>View</Link>
-                             </p>
-                             
+                                <Link className="waves-effect waves-light btn" to={`/songs/${song._id}`}>View</Link>
+
+                                </p>
+                             </div>
                          </div>
                          </div>
                 
@@ -125,7 +142,7 @@ class SongsComponent extends Component{
     loadMoreButton(){
         if(this.state.hasMore){
             return(
-             <button style={{float:'right',backgroundColor:'#909695',opacity:0.6}} className="btn" onClick={this.loadMore}>Load More</button>
+             <button className="btn hasMoreButton" onClick={this.loadMore}>Load More</button>
             )
         }
         
@@ -137,13 +154,31 @@ class SongsComponent extends Component{
           
             if(this.state.songs.length !==0){
 
+
                 const bookmarkedSongsData = this.state.bookmarkedSong;
                 const viewedSongsData = this.state.viewedSongs;
+                const mySongsData = this.state.mySongs;
+
+                const mysongcolumns = [
+                    {
+                        name: 'Title',
+                        selector: 'title',
+                        sortable: true,
+                        cell: row => <a target="_blank" href={"/songs/"+row._id}>{row.title}</a>,
+                    },
+                    {
+                        name: 'Artist',
+                        selector: 'artist',
+                        sortable: true,
+                        right: true,
+                    },
+                    ];
                     const bookmarkcolumns = [
                     {
                         name: 'Title',
                         selector: 'title',
                         sortable: true,
+                        cell: row => <a target="_blank" href={"/songs/"+row._id}>{row.title}</a>,
                     },
                     {
                         name: 'Artist',
@@ -158,6 +193,8 @@ class SongsComponent extends Component{
                             name: 'Title',
                             selector: 'title',
                             sortable: true,
+                            cell: row => <a target="_blank" href={"/songs/"+row._id}>{row.title}</a>,
+
                         },
                         {
                             name: 'Artist',
@@ -168,55 +205,86 @@ class SongsComponent extends Component{
                         ];
     
                 return(
-                    <div className="row">
-                        <div className="col s12 m5">
-                        <div className="row searchMargin">
-                            <div className="col s12 m12">
+                    <div className="container">
+                        <div>
+                                                        
+                        <div className="col s12 m12">
+                            <div className="card-body grey lighten-5 z-depth-1">
+                            <div className="row">
+                                <div className="input-field col s12 m12">
+                                <input name="serach" type="search" onChange={e =>this.updateSearch(e)} placeholder="search songs"/>
+                                <label className="label-icon" htmlFor="search"><i className="material-icons">search</i></label>
+                                <i className="material-icons">close</i>
+                                </div>
+                            </div>
+                            </div>
+
+                        </div>
+
+                        </div>
+                        <div className="row" id="custom-scroll">
+                            <div className="col s12 m4">
+                            <div>
+                              <Collapsible trigger="My Songs">
+                              <div className="card-panel grey lighten-5 z-depth-1">
+                                    <DataTable
+                                        columns={mysongcolumns}
+                                        data={mySongsData}
+                                        striped = {true}
+                                        pagination={true}
+
+                                    />
+                               </div>
+                              </Collapsible>
+                            </div>
+                        <div>
+                              <Collapsible trigger="Bookmarked Songs">
+                              <div className="card-panel grey lighten-5 z-depth-1">
+                                    <DataTable
+                                        columns={bookmarkcolumns}
+                                        data={bookmarkedSongsData}
+                                        striped = {true}
+                                        pagination={true}
+
+                                    />
+                               </div>
+                              </Collapsible>
+                            </div>     
+                          <div>
+                            <Collapsible trigger="Recently Viewed Songs">
                             <div className="card-panel grey lighten-5 z-depth-1">
                                     <DataTable
-                                        title="Recently viewed Songs"
                                         columns={viewSongcolumns}
                                         data={viewedSongsData}
                                         striped = {true}
                                         pagination={true}
                                        
                                     />
-                        </div>
+                             </div>
+                            </Collapsible>
+                          </div>
+
+                            </div>
+                            
+                            <div className="col s12 m8">
+                                <div className="card-panel grey lighten-5 z-depth-1">
+                                {this.displayingSongs()}
+                                {this.loadMoreButton()}
                             </div>
 
-                       <div className="col s12 m12">
-                            <div className="card-panel grey lighten-5 z-depth-1">
-                                    <DataTable
-                                        title="Bookmarked Songs"
-                                        columns={bookmarkcolumns}
-                                        data={bookmarkedSongsData}
-                                        striped = {true}
-                                        pagination={true}
-                                    />
-                        </div>
                             </div>
                         </div>
-
-                        </div>
-                     <div className="col s12 m7">
-                         <div className="card-body grey lighten-5 z-depth-1">
-                         <div className="row searchMargin">
-                            <div className="input-field col s12 m12 ">
-                               <input name="serach" type="text" onChange={e =>this.updateSearch(e)} className="validate" placeholder="Search Song"/>
-                            </div>
-                        </div>
-                         </div>
-                        <div className="card-panel grey lighten-5 z-depth-1">
-                            {this.displayingSongs()}
-                             {this.loadMoreButton()}
-                        </div>
-                    </div>
                     </div>
     
                 );
            
        
-             }else{
+             }else if(this.state.networkError){
+                return(
+                      <NetworkError />
+                )   
+              
+           }else{
                 return(
                     <Loader />
                 );
@@ -226,25 +294,43 @@ class SongsComponent extends Component{
             if(this.state.songs.length !==0){
     
                 return(
-                    <div className="row">
-                     <div className="col s12 m8 offset-m2">
-                     <div className="card-body grey lighten-5 z-depth-1">
-                         <div className="row searchMargin">
+                    <div className="container">
+                    <div>
+                                                    
+                    <div className="col s12 m12">
+                        <div className="card-body grey lighten-5 z-depth-1">
+                        <div className="row">
                             <div className="input-field col s12 m12">
-                               <input name="serach" type="text" onChange={e => this.updateSearch(e)} className="validate" placeholder="Search Song"/>
+                            <input name="serach" type="search" onChange={e =>this.updateSearch(e)} placeholder="search songs"/>
+                            <label className="label-icon" htmlFor="search"><i className="material-icons">search</i></label>
+                            <i className="material-icons">close</i>
                             </div>
                         </div>
-                         </div>
-                        <div className="card-panel grey lighten-5 z-depth-1">
+                        </div>
+
+                    </div>
+
+                    </div>
+                    <div className="row" id="custom-scroll">
+                        <div className="col s12 m12">
+                            <div className="card-panel grey lighten-5 z-depth-1">
                             {this.displayingSongs()}
                             {this.loadMoreButton()}
                         </div>
+
+                        </div>
                     </div>
-                    </div>
+                </div>
+
     
                 );
            
        
+             }else if(this.state.networkError){
+                  return(
+                        <NetworkError />
+                  )   
+                
              }else{
                 return(
                     <Loader />

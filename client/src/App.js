@@ -18,6 +18,7 @@ import ViewSong from "./components/songs/ViewSong";
 import EditSong from "./components/songs/EditSong";
 
 import Navbar from "./components/header/Navbar";
+import Footer from "./components/footer";
 
 
 const App = () => { 
@@ -52,6 +53,7 @@ const App = () => {
             <Route exact path="/song/create" component={CreateSong} />
             <Route exact path="/songs/:id" component={ViewSong} />
             <Route exact path="/songs/:id/edit" component={EditSong} />
+            <Footer />
           </div>
         </BrowserRouter>
       </Provider>

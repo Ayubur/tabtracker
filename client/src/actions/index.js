@@ -1,6 +1,6 @@
 import {
      AUTH_USER, AUTH_ERROR,AUTH_LOGOUT,
-     CREATE_SONG, SONG_ERROR} from './types';
+     CREATE_SONG, SONG_ERROR, REMOVE_ERROR} from './types';
      
 import axiosConfig from '../axiosConfig';
 
@@ -57,7 +57,7 @@ export const signin =(formProps,callback)=> async dispatch =>{
         callback();
 
     }catch(e){
-        dispatch({ type: AUTH_ERROR, payload:"**Oopps..email and password don not match, try again"});
+        dispatch({ type: AUTH_ERROR, payload:"**Oopps..email and password do not match, try again"});
 
     }
 
@@ -94,7 +94,8 @@ export const createSong = (formProps,callback)=> async dispatch=>{
                 type:CREATE_SONG,
                 payload:response.data
             })
-                callback();
+        
+            callback();
         
         }
         
@@ -106,3 +107,12 @@ export const createSong = (formProps,callback)=> async dispatch=>{
 
     }
 }
+
+export const removeError =()=> dispatch =>{
+            
+        dispatch({
+            type: REMOVE_ERROR,
+            payload:''
+        });
+
+};

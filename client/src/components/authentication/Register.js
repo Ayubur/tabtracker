@@ -11,6 +11,10 @@ class RegisterComponent extends Component{
         super(props);
     }
 
+    componentDidMount(){
+        this.props.removeError();
+    }
+
     onSubmit = formProps=>{
         this.props.signup(formProps, ()=>{
             this.props.history.push('/');
@@ -72,7 +76,8 @@ export default compose(
 const styles ={
     errMsg:{
         color: 'red',
-        fontSize: 21
+        fontSize:'1.2rem',
+        marginBottom:22
     }
 }
 

@@ -151,3 +151,17 @@ exports.deleteSong = function(req,res,next){
         })
     });
 }
+
+
+exports.createdSongs= function(req,res,next){
+    const user_id = req.params.userId;
+
+    Song.find({_creator:user_id}, function(err, song){
+
+        if(err){
+            return res.send({ "error":"**Oopps..something went wrong, please try again"});
+        }
+
+        res.send(song.reverse());
+    });
+}

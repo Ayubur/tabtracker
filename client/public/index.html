@@ -4,9 +4,12 @@
     <meta charset="utf-8" />
     <meta name="author" content="Ayubur Rahaman" />
     <meta name="name" content="tabtracker" />
-    <meta name="description" content="A single page application for tracking guitar tab" />
+    <meta name="description" content="A web application for tracking guitar tab" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
+
+
+    <title>Tabtracker</title>
 
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -14,6 +17,7 @@
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
   
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
    
@@ -28,11 +32,16 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>Tabtracker</title>
+ 
   </head>
   <body>
+    <div id="fb-root"></div>
+
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <div id="root">
+    </div>
+
+ <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v5.0&appId=1373400309528014&autoLogAppEvents=1"></script>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -47,14 +56,17 @@
 
     <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
-    
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+     
     <script>
 
     $( document ).ready(function(){
       $(".button-collapse").sideNav();
+      $('.collapsible').collapsible();
 
     })
+
     </script>
   </body>
 </html>

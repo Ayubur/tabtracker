@@ -30,7 +30,7 @@ class CreateSongComponent extends Component{
     onSubmit = formProps=>{
         formProps.creator = this.props.auth._id;
         this.props.createSong(formProps, ()=>{
-            this.props.history.push('/');
+            this.props.history.push(`/songs/${this.props.createdSong._id}`);
         });
 
     }
@@ -47,33 +47,39 @@ class CreateSongComponent extends Component{
                                     <div className="card-title">Song Metadata</div>
                                 <div className="row">
                             <div className="input-field col s12">
-                               <Field name="title" component="input" type="text" className="validate" placeholder="Enter Title"/>
+                               <Field name="title" component="input" id="title" type="text" className="validate" placeholder="Enter Title"/>
+                            <label for="title">Title*</label>
                             </div>
                         </div>
                         <div className="row">
                             <div className="input-field col s12">
-                               <Field name="artist" component="input" type="text" className="validate" placeholder="Enter Artist"/>
+                               <Field name="artist" id="artist" component="input" type="text" className="validate" placeholder="Enter Artist"/>
+                               <label for="artist">Artist*</label>
                             </div>
                         </div>
                         <div className="row">
                             <div className="input-field col s12">
-                               <Field name="genre" component="input" type="text" className="validate" placeholder="Enter genre"/>
+                               <Field name="genre" id="genre" component="input" type="text" className="validate" placeholder="Enter genre"/>
+                               <label for="genre">Genre*</label>
                             </div>
                         </div>
                         <div className="row">
                             <div className="input-field col s12">
-                                <Field name="album" component="input" type="text" className="validate" placeholder="Enter Album"/>
+                                <Field name="album" id="album" component="input" type="text" className="validate" placeholder="Enter Album"/>
+                                <label for="album">Album*</label>
                                 </div>
                             </div>
                     
                         <div className="row">
                             <div className="input-field col s12">
-                               <Field name="albumImage" component="input" type="text" className="validate" placeholder="Enter Album Image Url"/>
+                               <Field name="albumImage" id="albumImage" component="input" type="text" className="validate" placeholder="Enter Album Image Url"/>
+                               <label for="albumImage">Album Image*</label>
                             </div>
                         </div>
                         <div className="row">
                             <div className="input-field col s12">
-                               <Field name="youtubeId" component="input" type="text" className="validate" placeholder="Enter Youtube Id"/>
+                               <Field name="youtubeId" id="youtubeId" component="input" type="text" className="validate" placeholder="Enter Youtube Id"/>
+                               <label for="youtubeId">Youtube Id*</label>
                             </div>
                         </div>
 
@@ -87,13 +93,14 @@ class CreateSongComponent extends Component{
                                 <div className="card-title">Song Lyrics & Tabs</div>
                                 <div className="row">
                             <div className="input-field col s12">
-                            <Field name="lyrics" component="textarea" className="materialize-textarea" placeholder="Enter Lyrics" rows="50"/>
+                            <Field name="lyrics" id="lyrics" component="textarea" className="materialize-textarea" placeholder="Enter Lyrics" rows="50"/>
+                            <label for="lyrics">Lyrics*</label>
                             </div>
                         </div>
                         <div className="row">
                             <div className="input-field col s12">
-                            <Field name="tab" component="textarea" className="materialize-textarea" placeholder="Enter Tab"/>
-
+                            <Field name="tab" id="tab" component="textarea" className="materialize-textarea" placeholder="Enter Tab"/>
+                            <label for="tab">Guitar Tab*</label>
                             </div>
                         </div>
                         <p style={errMsg}>{ this.props.errorMessage}</p>
@@ -112,7 +119,10 @@ class CreateSongComponent extends Component{
 }
 
 function mapStateToProps(state){
-  return {successMessage: state.songs.successMsg,errorMessage: state.songs.errorMsg, auth:state.auth.user};
+  return {successMessage: state.songs.successMsg,
+    errorMessage: state.songs.errorMsg,
+     auth:state.auth.user,
+    createdSong: state.songs.songs};
 }
 
 export default compose(
@@ -127,11 +137,13 @@ export default compose(
 const styles ={
     errMsg:{
         color: 'red',
-        fontSize: 21
+        fontSize: 21,
+        marginBottom:22
     },
     successMsg:{
         color: 'green',
-        fontSize:21
+        fontSize:21,
+        marginBottom:22
     }
 }
 

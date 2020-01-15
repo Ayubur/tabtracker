@@ -28,6 +28,10 @@ module.exports = (app)=>{
     app.put("/api/songs/:id",requireAuth,songsController.editSong);
     app.delete("/api/songs/:id",requireAuth,songsController.deleteSong);
 
+    //my created songs routes
+
+    app.get("/api/:userId/mysongs",requireAuth,songsController.createdSongs);
+
     //bookmarks routes
     app.get("/api/:id/songs/bookmark",requireAuth,bookmarkController.findAllSongs);
     app.put("/api/songs/:id/bookmark",requireAuth,bookmarkController.saveBookmarks);
