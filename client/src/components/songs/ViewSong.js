@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Loader from 'react-loader';
 import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
+import MetaTags from 'react-meta-tags';
 
 import NetworkError from '../NetworkError';
 import axiosConfig from '../../axiosConfig';
@@ -83,7 +84,9 @@ class ViewSongComponent extends Component{
                console.log(e);
             }
 
+
     }
+
         
     }
 
@@ -183,7 +186,7 @@ class ViewSongComponent extends Component{
                     <Link className="btn waves-effect waves-light" to={`/songs/${this.props.match.params.id}/edit`}>Edit</Link>
                     <button className="btn waves-effect waves-light" onClick={(e)=> this.deleteSong()} style={buttonMargin}>Delete</button>
                     <button className="btn waves-effect waves-light" onClick={(e)=> this.bookmarkSong()} style={buttonMargin}>Bookmark</button>
-                    </p>        
+                    </p>   
                 </div>
                 </div>
                 </div>
@@ -220,6 +223,7 @@ class ViewSongComponent extends Component{
         else if(this.props.state.user && this.state.isBookmarked){
             return (
                 <div className="row valign-wrapper">
+
                      <div className="col s12 m12">
                 <div className="col sm2 ">
                   <img src={this.state.song.albumImage} className="responsive-image" height="150px" width="150px" alt="Album Image"/>

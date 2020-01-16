@@ -1,5 +1,9 @@
-.search-input{
-    margin: 0;
+
+.social-facebook{
+    background-color: #4267b2;
+}
+.social-facebook:hover{
+    background-color: #4267b2;
 }
 
 
@@ -76,7 +80,6 @@ a{
 
 .footer {
     background-color: #F3F3F3;
-    padding:15px;
     position:fixed;
     bottom:0;
     width:100%;

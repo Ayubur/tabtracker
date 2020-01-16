@@ -18,7 +18,7 @@ import ViewSong from "./components/songs/ViewSong";
 import EditSong from "./components/songs/EditSong";
 
 import Navbar from "./components/header/Navbar";
-import Footer from "./components/footer";
+import Footer from "./components/Footer";
 
 
 const App = () => { 
