@@ -11,7 +11,7 @@ Tabtracker is an jwt based single page web application for tracker guitar tab. A
 ```
 module.exports={
     secret:'',      // your credentials
-    database:''     // your credentials
+    databaseURL:''     // your credentials
 }
 ```
 #### Database Seeding 

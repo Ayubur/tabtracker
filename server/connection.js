@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const config = require('./config');
 
 // mongodb setup
-mongoose.connect(config.database,{useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(config.databaseURL,{useNewUrlParser: true, useUnifiedTopology: true});
 
 //Get the default connection
 const db = mongoose.connection;

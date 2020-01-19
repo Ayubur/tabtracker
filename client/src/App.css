@@ -1,3 +1,18 @@
+.editBtn{
+    background-color: #2196F3;
+}
+.editBtn:hover{
+    background-color: #2196F3;
+}
+
+.deleteBtn{
+    background-color: #e45050;
+}
+
+.deleteBtn:hover{
+    background-color: #e45050;
+}
+
 
 .social-facebook{
     background-color: #4267b2;

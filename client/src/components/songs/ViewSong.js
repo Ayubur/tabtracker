@@ -111,6 +111,10 @@ class ViewSongComponent extends Component{
     }
 
     bookmarkSong = async(e)=>{
+
+        if(! this.props.state.user){
+              return this.props.history.push('/login')
+        }
         const song_id = this.props.match.params.id;
         const user_id= this.props.state.user._id;
 
@@ -183,8 +187,8 @@ class ViewSongComponent extends Component{
                         
                     </p>    
                     <p>
-                    <Link className="btn waves-effect waves-light" to={`/songs/${this.props.match.params.id}/edit`}>Edit</Link>
-                    <button className="btn waves-effect waves-light" onClick={(e)=> this.deleteSong()} style={buttonMargin}>Delete</button>
+                    <Link className="btn waves-effect waves-light editBtn" to={`/songs/${this.props.match.params.id}/edit`}>Edit</Link>
+                    <button className="btn waves-effect waves-light deleteBtn" onClick={(e)=> this.deleteSong()} style={buttonMargin}>Delete</button>
                     <button className="btn waves-effect waves-light" onClick={(e)=> this.bookmarkSong()} style={buttonMargin}>Bookmark</button>
                     </p>   
                 </div>
@@ -210,8 +214,8 @@ class ViewSongComponent extends Component{
                         
                     </p>    
                     <p>
-                    <Link className="btn waves-effect waves-light" to={`/songs/${this.props.match.params.id}/edit`}>Edit</Link>
-                    <button className="btn waves-effect waves-light" onClick={(e)=> this.deleteSong()} style={buttonMargin}>Delete</button>
+                    <Link className="btn waves-effect waves-light editBtn" to={`/songs/${this.props.match.params.id}/edit`}>Edit</Link>
+                    <button className="btn waves-effect waves-light deleteBtn" onClick={(e)=> this.deleteSong()} style={buttonMargin}>Delete</button>
                     <button className="btn waves-effect waves-light" onClick={(e)=> this.unbookmarkSong()} style={buttonMargin}>UnBookmark</button>
                     </p>        
                 </div>
@@ -286,8 +290,10 @@ class ViewSongComponent extends Component{
                        <span><b>artist: </b> {this.state.song.artist}</span> <br/>
                         <span><b>album: </b> {this.state.song.album}</span> <br/>
                         <span><b>genre: </b> {this.state.song.genre}</span> <br/>
-                        
-                    </p>      
+                    </p>  
+                    <p>
+                    <button className="btn waves-effect waves-light" onClick={(e)=> this.bookmarkSong()} style={buttonMargin}>Bookmark</button>
+                    </p>     
                 </div>
                 </div>
                 </div>
