@@ -309,6 +309,11 @@ class ViewSongComponent extends Component{
                 return(
                     <div >
                      <div className="row">
+                        <MetaTags>
+                         <title>{this.state.song.title}</title>
+                        <meta property="og:title" content={this.state.song.title} />
+                        <meta property="og:image" content={this.state.song.albumImage} />
+                    </MetaTags>
                      <div className="col s12 m12">
 
                        <div className="col s12 m6 ">

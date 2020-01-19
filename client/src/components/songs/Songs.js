@@ -7,6 +7,8 @@ import * as actions from '../../actions';
 import axiosConfig from '../../axiosConfig';
 import DataTable from 'react-data-table-component';
 import Collapsible from 'react-collapsible';
+import MetaTags from 'react-meta-tags';
+
 
 class SongsComponent extends Component{
 
@@ -22,8 +24,7 @@ class SongsComponent extends Component{
             bookmarkedSong: null,
             viewedSongs:null,
             search:'',
-            networkError:false
-        }
+            networkError:false        }
     }
 
     async componentDidMount(){
@@ -206,6 +207,12 @@ class SongsComponent extends Component{
     
                 return(
                     <div className="container">
+                    <MetaTags>
+                         <title>Tabtracker</title>
+                         <meta property="og:title" content="Tabtracker" />
+                         <meta property="og:description" content="Crazy about guitar ? Track guitar tab of your most favourite songs" />
+                        <meta property="og:image" content={window.location.href+"guitar.jpg"} />
+                    </MetaTags>
                         <div>
                                                         
                         <div className="col s12 m12">
@@ -295,6 +302,13 @@ class SongsComponent extends Component{
     
                 return(
                     <div className="container">
+                    <MetaTags>
+                         <title>Tabtracker</title>
+                         <meta property="og:title" content="Tabtracker" />
+                         <meta property="og:description" content="Crazy about guitar ? Track guitar tab of your most favourite songs" />
+                        <meta property="og:image" content={window.location.href+"guitar.jpg"} />
+                    </MetaTags>
+                    
                     <div>
                                                     
                     <div className="col s12 m12">
@@ -328,12 +342,31 @@ class SongsComponent extends Component{
        
              }else if(this.state.networkError){
                   return(
-                        <NetworkError />
+                      <div>
+                    <MetaTags>
+                         <title>Tabtracker</title>
+                         <meta property="og:title" content="Tabtracker" />
+                         <meta property="og:description" content="Crazy about guitar ? Track guitar tab of your most favourite songs" />
+                        <meta property="og:image" content={window.location.href+"guitar.jpg"} />
+                    </MetaTags>
+                    <NetworkError />
+
+                      </div>
+                      
                   )   
                 
              }else{
                 return(
+                    <div>
+                     <MetaTags>
+                         <title>Tabtracker</title>
+                         <meta property="og:title" content="Tabtracker" />
+                         <meta property="og:description" content="Crazy about guitar ? Track guitar tab of your most favourite songs" />
+                        <meta property="og:image" content={window.location.href+"guitar.jpg"} />
+                    </MetaTags>
                     <Loader />
+                    </div>
+
                 );
              }
              
