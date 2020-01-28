@@ -1,5 +1,5 @@
 # Tabtracker
-Tabtracker is an jwt based single page web application for tracker guitar tab. Anyone can access,bookmark different types of songs including its video, lyrics, guitar tabs and others informations and also can create his own favorite songs.
+Tabtracker is an jwt based single page web application for tracker guitar tab. Anyone can access,bookmark different types of songs including its video, lyrics, guitar tabs and others informations and also can create his own favorite songs. The site is currently hosted [here](https://tabtrackers.herokuapp.com/).
 
 #### Technologis
 * Frontend - React js
@@ -24,3 +24,6 @@ For seeding database, in command line, run ```cd server``` and then ```npm run s
 #### Staring Server & Client
 * To start server, in command line, run ```cd server``` and then ```npm run dev```
 * To start client, in command line, run ```cd client``` and then ```npm start```
+
+#### Issues
+* Social media sharing for individual song is not working properly yet 
