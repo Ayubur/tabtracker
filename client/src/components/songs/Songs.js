@@ -213,7 +213,7 @@ class SongsComponent extends Component{
                          <meta property="og:description" content="Crazy about guitar ? Track guitar tab of your most favourite songs" />
                         <meta property="og:image" content={window.location.href+"guitar.jpg"} />
                     </MetaTags>
-                        <div>
+                        <div className="searchContainer">
                                                         
                         <div className="col s12 m12">
                             <div className="card-body grey lighten-5 z-depth-1">
@@ -230,8 +230,10 @@ class SongsComponent extends Component{
 
                         </div>
                         <div className="row" id="custom-scroll">
+                        <div className="mySongsContainer">
                             <div className="col s12 m4">
-                            <div>
+                               
+                            <div >
                               <Collapsible trigger="My Songs">
                               <div className="card-panel grey lighten-5 z-depth-1">
                                     <DataTable
@@ -272,6 +274,7 @@ class SongsComponent extends Component{
                           </div>
 
                             </div>
+                            </div>
                             
                             <div className="col s12 m8">
                                 <div className="card-panel grey lighten-5 z-depth-1">
@@ -309,7 +312,7 @@ class SongsComponent extends Component{
                         <meta property="og:image" content={window.location.href+"guitar.jpg"} />
                     </MetaTags>
                     
-                    <div>
+                    <div className="searchContainer">
                                                     
                     <div className="col s12 m12">
                         <div className="card-body grey lighten-5 z-depth-1">
