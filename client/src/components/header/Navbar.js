@@ -40,12 +40,14 @@ class Navbar extends React.Component {
 
             <ul id="nav-mobile" className="right hide-on-med-and-down">
             <li><a href="/song/create">Add Song</a></li>
+            <li><a href="/mysongs">My Songs</a></li>
              <li><a href="/logout">logout</a></li>
 
             </ul>
 
             <ul id="slide-out" className="side-nav">
             <li><a href="/song/create">Add Song</a></li>
+            <li><a href="/mysongs">My Songs</a></li>
             <li><a href="/logout">logout</a></li>
             </ul>
              </div> 

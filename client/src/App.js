@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route} from "react-router-dom";
+import { BrowserRouter, Route, Router} from "react-router-dom";
 import {Provider} from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import reduxThunk from 'redux-thunk';
@@ -13,6 +13,7 @@ import Login from "./components/authentication/Login";
 import Register from "./components/authentication/Register";
 import Logout from "./components/authentication/Logout";
 import Songs from "./components/songs/Songs";
+import MySongs from "./components/songs/MySongs";
 import CreateSong from "./components/songs/CreateSong";
 import ViewSong from "./components/songs/ViewSong";
 import EditSong from "./components/songs/EditSong";
@@ -45,6 +46,7 @@ const App = () => {
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/logout" component={Logout} />
+            <Route exact path="/mysongs" component={MySongs} />
             <Route exact path="/song/create" component={CreateSong} />
             <Route exact path="/songs/:id" component={ViewSong} />
             <Route exact path="/songs/:id/edit" component={EditSong} />
