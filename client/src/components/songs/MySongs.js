@@ -84,8 +84,7 @@ class MySongs extends Component{
         const viewedSongsData = this.state.viewedSongs;
         const mySongsData = this.state.mySongs;
 
-        console.log(bookmarkedSongsData);
-        console.log(viewedSongsData);
+
 
         const mysongcolumns = [
             {

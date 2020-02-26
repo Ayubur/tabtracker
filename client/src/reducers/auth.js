@@ -1,7 +1,7 @@
 import { AUTH_USER, AUTH_ERROR,AUTH_LOGOUT,REMOVE_ERROR } from '../actions/types';
 
 const INITIAL_STATE ={
-  user: null,
+     user: null,
     errorMessage:''
 };
 

@@ -65,6 +65,8 @@ class SongsComponent extends Component{
                     return song.title.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
                 }
         );
+
+        if(filteredsongs.length > 0){
  
              return filteredsongs.map((song,id)=>{
                return (
@@ -86,6 +88,14 @@ class SongsComponent extends Component{
                 
                  );
             })
+
+        }else{
+            return(
+                <div className="searchNull">
+                    <p>No song found</p>
+                </div>
+            );
+        }
 
     }
 
@@ -131,7 +141,7 @@ class SongsComponent extends Component{
                             <div className="card-panel grey lighten-5 z-depth-1">
                             {this.displayingSongs()}
                             {this.loadMoreButton()}
-                        </div>
+                            </div>
 
                         </div>
                     </div>

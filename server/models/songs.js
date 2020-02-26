@@ -39,6 +39,10 @@ const songSchema = new Schema({
     _creator:{
         type: Schema.Types.ObjectId,
         ref:'users'
+    },
+    createdAt:{
+        type:String,
+        default: new Date()
     }
 
 });

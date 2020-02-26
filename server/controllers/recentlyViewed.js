@@ -16,7 +16,7 @@ exports.findAllViewedSongs = function(req,res,next){
 }
 
 exports.saveViewedSongs= function(req,res,next){
-    const user_id = req.body.userId;
+    const user_id = req.user._id;
     const song_id = req.params.id;
 
     User.findByIdAndUpdate(user_id,{$addToSet:{recentlyViewed:song_id}},function(err,user){
