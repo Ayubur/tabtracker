@@ -15,7 +15,6 @@ const songs = (state=INITIAL_STATE, actions)=>{
         default:
             return{...state};
     }
-
 }
 
 export default songs;

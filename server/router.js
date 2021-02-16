@@ -2,6 +2,7 @@ const authentication= require('./controllers/authentication');
 const songsController = require('./controllers/songs');
 const bookmarkController = require('./controllers/bookmarks');
 const ViewController = require('./controllers/recentlyViewed');
+const fileController = require('./controllers/file');
 
 const passportService = require('./services/passport');
 const passport = require('passport');
@@ -37,6 +38,9 @@ module.exports = (app)=>{
     //recent view song routes
     app.get("/api/:id/songs/viewedSongs",requireAuth,ViewController.findAllViewedSongs);
     app.put("/api/songs/:id/viewedSong",requireAuth,ViewController.saveViewedSongs);
+
+    //file upload 
+    app.post("/imageUpload",fileController.upload);
     
 
 }

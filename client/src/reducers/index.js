@@ -4,9 +4,7 @@ import auth from "./auth";
 import songs from "./songs";
 
 export default combineReducers({
-
     auth:auth,
     songs:songs,
     form:formReducer
-
 });
