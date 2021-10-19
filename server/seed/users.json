@@ -1,0 +1,14 @@
+[
+    {
+        "name":"John Doe",
+        "email":"test1@mail.com",
+        "password":"12345",
+        "bookmarkedSongs":[]
+    },
+    {
+        "name":"John Doe Sam",
+        "email":"test2@mail.com",
+        "password":"12345",
+        "bookmarkedSongs":[]
+    }
+]
