@@ -29,7 +29,7 @@ export default function Home({songs}) {
                                     <Image
                                         style={{ height: 200, marginBottom: 20 }}
                                         width="100%"
-                                        src={el.albumImage}
+                                        src={`/images/${el.albumImage}`}
                                         rounded
                                     />
                                 </Col>
