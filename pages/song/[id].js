@@ -1,15 +1,52 @@
 import { useRouter } from "next/dist/client/router";
-
+import { useContext, useState,useEffect } from "react";
 import { Container, Card, Row, Col, Image } from "react-bootstrap";
 import NavbarComponent from "../../components/navbar";
 import Footer from "../../components/footer";
 import Head from 'next/head';
 import config from "../../utils/config";
 
+import { GlobalContext } from "../../context/context";
+
 
 export default function Song({ song }) {
     const router = useRouter();
     const { id } = router.query;
+    const { user,setUser } = useContext(GlobalContext);
+
+    const [isBookmarked, setIsBookmarked]=useState(false);
+
+    useEffect(()=> {
+        if(!user?.bookmarkedSongs.includes(id)){
+            setIsBookmarked(false);
+        }else{
+            setIsBookmarked(true);
+        }
+    },[user]);
+
+    const bookmarkSong = () => {
+        fetch(`${config.API_URL}/api/songs/${id}/bookmark`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'authorization': `${user?.token}`
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success){
+                    setUser(data.user);
+                    if(!data.user.bookmarkedSongs.includes(id)){
+                        setIsBookmarked(false);
+                    }else{
+                        setIsBookmarked(true);
+                    }
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
 
     return (
         <>
@@ -42,7 +79,15 @@ export default function Song({ song }) {
                                             <li><b>Album : </b> <span>{song?.album}</span></li>
                                         </ul>
                                         <div>
-                                            <button className="btn btn-sm btn-primary">Share to Facebook</button>
+                                            <button className="btn btn-sm btn-primary ">Share to Facebook</button>
+                                            {
+                                                user !== null && !isBookmarked ? (
+                                                    <button className="btn btn-sm btn-success" style={{ marginLeft: 5 }} onClick={()=> bookmarkSong()}>Bookmark</button>
+                                                ):
+                                                (
+                                                    <button className="btn btn-sm btn-success" style={{ marginLeft: 5 }}>unbookmark</button>
+                                                )
+                                            }
                                         </div>
                                     </Col>
                                 </Row>

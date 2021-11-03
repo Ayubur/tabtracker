@@ -1,7 +1,8 @@
 import React, { useState, useContext } from "react";
-import { Container, Card, Row, Col, Form, Button } from "react-bootstrap";
+import { Container, Card, Row, Col, Form, Button, Toast, ToastContainer } from "react-bootstrap";
 
 import NavbarComponent from "../../components/navbar";
+import ToasterComponent from "../../components/toaster";
 import Footer from "../../components/footer";
 import { GlobalContext } from "../../context/context";
 import config from "../../utils/config";
@@ -9,6 +10,9 @@ import Router from "next/router";
 
 export default function CreateSong() {
     const { user } = useContext(GlobalContext);
+    const [show, setShow] = useState(false);
+    const [message, setMessage] = useState("New Message");
+    const [variant,setVariant]= useState('success');
     const [reqData, setReqData] = useState({
         title: '',
         artist: '',
@@ -23,6 +27,8 @@ export default function CreateSong() {
 
 
     const _upload = () => {
+        setShow(false);
+
         fetch(`${config.API_URL}/api/songs/create`, {
             method: 'POST',
             headers: {
@@ -41,6 +47,9 @@ export default function CreateSong() {
                 }
             })
             .catch((error) => {
+                setMessage(error);
+                setVariant('danger');
+                setShow(true);
                 console.error('Error:', error);
             });
     }
@@ -48,13 +57,16 @@ export default function CreateSong() {
     const _save = (e) => {
         e.preventDefault();
 
+        setShow(false);
+        setMessage('');
+
         reqData['creator'] = user._id;
         setReqData(reqData);
 
         // console.log("Req Data === ", reqData['albumImage']);
 
         let formData = new FormData();
-        formData.append('file',reqData['albumImage']);
+        formData.append('file', reqData['albumImage']);
 
         fetch(`${config.API_URL}/imageUpload`, {
             method: 'POST',
@@ -73,6 +85,9 @@ export default function CreateSong() {
                 }
             })
             .catch((error) => {
+                setMessage(error);
+                setVariant('danger');
+                setShow(true);
                 console.error('Error:', error);
             });
     }
@@ -143,6 +158,8 @@ export default function CreateSong() {
                     </Card.Body>
                 </Card>
             </Container>
+
+            <ToasterComponent show={show} message={message} variant={variant} />
             <Footer />
         </>
     )

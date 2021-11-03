@@ -8,11 +8,18 @@ function tokenForUser(user){
     return jwt.encode({sub:user.id, iat:timestamp},config.secret);
 }
 
+exports.decodeTokenForUser = function(token){
+    var decoded = jwt.decode(token, config.secret);
+    return decoded;
+}
+
 
 
 exports.signin= function(req,res,next){
     res.send({ 
         user:{
+            bookmarkedSongs:req.user.bookmarkedSongs,
+            recentlyViewed:req.user.recentlyViewed,
             _id:req.user._id,
             name:req.user.name,
             token : tokenForUser(req.user)
@@ -77,6 +84,8 @@ exports.signup = function(req,res,next){
             //Respond to request indicating user is created
             res.send({
                 user: {
+                    bookmarkedSongs:user.bookmarkedSongs,
+                    recentlyViewed:user.recentlyViewed,
                     _id:user._id,
                     name: user.name,
                     token:tokenForUser(user)
