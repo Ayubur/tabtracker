@@ -1,5 +1,5 @@
 import { useRouter } from "next/dist/client/router";
-import { useContext, useState,useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Container, Card, Row, Col, Image } from "react-bootstrap";
 import NavbarComponent from "../../components/navbar";
 import Footer from "../../components/footer";
@@ -12,17 +12,36 @@ import { GlobalContext } from "../../context/context";
 export default function Song({ song }) {
     const router = useRouter();
     const { id } = router.query;
-    const { user,setUser } = useContext(GlobalContext);
+    const { user, setUser } = useContext(GlobalContext);
 
-    const [isBookmarked, setIsBookmarked]=useState(false);
+    const [isBookmarked, setIsBookmarked] = useState(false);
 
-    useEffect(()=> {
-        if(!user?.bookmarkedSongs.includes(id)){
+    useEffect(() => recentlyViewedSong(), []);
+
+    useEffect(() => {
+        if (!user?.bookmarkedSongs.includes(id)) {
             setIsBookmarked(false);
-        }else{
+        } else {
             setIsBookmarked(true);
         }
-    },[user]);
+    }, [user]);
+
+
+    const recentlyViewedSong = () => {
+        fetch(`${config.API_URL}/api/songs/${user?._id}/viewedSong`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'authorization': `${user?.token}`
+            },
+        })
+            .then(data => {
+                console.log(data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
 
     const bookmarkSong = () => {
         fetch(`${config.API_URL}/api/songs/${id}/bookmark`, {
@@ -34,11 +53,11 @@ export default function Song({ song }) {
         })
             .then(response => response.json())
             .then(data => {
-                if(data.success){
+                if (data.success) {
                     setUser(data.user);
-                    if(!data.user.bookmarkedSongs.includes(id)){
+                    if (!data.user.bookmarkedSongs.includes(id)) {
                         setIsBookmarked(false);
-                    }else{
+                    } else {
                         setIsBookmarked(true);
                     }
                 }
@@ -82,11 +101,11 @@ export default function Song({ song }) {
                                             <button className="btn btn-sm btn-primary ">Share to Facebook</button>
                                             {
                                                 user !== null && !isBookmarked ? (
-                                                    <button className="btn btn-sm btn-success" style={{ marginLeft: 5 }} onClick={()=> bookmarkSong()}>Bookmark</button>
-                                                ):
-                                                (
-                                                    <button className="btn btn-sm btn-success" style={{ marginLeft: 5 }}>unbookmark</button>
-                                                )
+                                                    <button className="btn btn-sm btn-success" style={{ marginLeft: 5 }} onClick={() => bookmarkSong()}>Bookmark</button>
+                                                ) :
+                                                    (
+                                                        <button className="btn btn-sm btn-success" style={{ marginLeft: 5 }}>unbookmark</button>
+                                                    )
                                             }
                                         </div>
                                     </Col>

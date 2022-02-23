@@ -18,3 +18,7 @@ a {
 ul{
     list-style: none;
 }
+
+.navbar-light{
+    background-color: #eded2a !important;
+}
