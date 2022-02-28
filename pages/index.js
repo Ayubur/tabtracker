@@ -58,9 +58,9 @@ export default function Home({songs}) {
 }
 
 export async function getServerSideProps(context) {
-    const res = await fetch(`${config.API_URL}/api/songs`);
+    const res = await fetch(`${config.CLIENT_URL}/api/songs`);
     const data = await res.json();
     return {
-      props: {songs:data.songs}, // will be passed to the page component as props
+      props: {songs:data.songs},
     }
   }

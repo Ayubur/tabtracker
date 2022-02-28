@@ -16,7 +16,11 @@ export default function Song({ song }) {
 
     const [isBookmarked, setIsBookmarked] = useState(false);
 
-    useEffect(() => recentlyViewedSong(), []);
+    useEffect(() => {
+        if (user !== null) {
+            recentlyViewedSong();
+        }
+    }, []);
 
     useEffect(() => {
         if (!user?.bookmarkedSongs.includes(id)) {
@@ -98,14 +102,19 @@ export default function Song({ song }) {
                                             <li><b>Album : </b> <span>{song?.album}</span></li>
                                         </ul>
                                         <div>
-                                            <button className="btn btn-sm btn-primary ">Share to Facebook</button>
+                                            {/* <button className="btn btn-sm btn-primary ">Share to Facebook</button> */}
+
                                             {
-                                                user !== null && !isBookmarked ? (
-                                                    <button className="btn btn-sm btn-success" style={{ marginLeft: 5 }} onClick={() => bookmarkSong()}>Bookmark</button>
-                                                ) :
-                                                    (
-                                                        <button className="btn btn-sm btn-success" style={{ marginLeft: 5 }}>unbookmark</button>
-                                                    )
+                                                user !== null ? (
+                                                    !isBookmarked ? (
+                                                        <button className="btn btn-sm btn-success" style={{ marginLeft: 5 }} onClick={() => bookmarkSong()}>Bookmark</button>
+                                                    ) :
+                                                        (
+                                                            <button className="btn btn-sm btn-success" style={{ marginLeft: 5 }}>Unbookmark</button>
+                                                        )
+                                                ) : (
+                                                    <></>
+                                                )
                                             }
                                         </div>
                                     </Col>
@@ -139,26 +148,9 @@ export default function Song({ song }) {
 }
 
 export async function getServerSideProps({ query }) {
-    const res = await fetch(`${config.API_URL}/api/songs/${query.id}`);
-    let data = await res.json();
+    const res = await fetch(`${config.CLIENT_URL}/api/songs/${query.id}`);
+    const data = await res.json();
     return {
-        props: { song: data[0] }, // will be passed to the page component as props
+        props: { song: data[0] }
     }
 }
-
-// export const getStaticProps = async ({ params }) => {
-//     const song = songs.filter((el) => el.id.toString() == params.id);
-//     return {
-//         props: {
-//             song: song[0]
-//         }
-//     }
-// }
-
-// export const getStaticPaths = async () => {
-//     const paths = songs.map(el => ({
-//         params: { id: el.id.toString() }
-//     }));
-
-//     return { paths, fallback: false };
-// }
