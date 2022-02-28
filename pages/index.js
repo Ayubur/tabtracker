@@ -29,7 +29,7 @@ export default function Home({songs}) {
                                     <Image
                                         style={{ height: 200, marginBottom: 20 }}
                                         width="100%"
-                                        src={el.albumImage}
+                                        src={`/images/${el.albumImage}`}
                                         rounded
                                     />
                                 </Col>
@@ -58,9 +58,9 @@ export default function Home({songs}) {
 }
 
 export async function getServerSideProps(context) {
-    const res = await fetch(`${config.API_URL}/api/songs`);
+    const res = await fetch(`${config.CLIENT_URL}/api/songs`);
     const data = await res.json();
     return {
-      props: {songs:data.songs}, // will be passed to the page component as props
+      props: {songs:data.songs},
     }
   }

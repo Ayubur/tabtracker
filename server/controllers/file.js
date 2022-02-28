@@ -13,6 +13,7 @@ const upload = async (req, res) => {
       res.status(200).send({
         "success":true,
         "message": "Uploaded the file successfully: " + req.file.originalname,
+        "filename": req.file.filename
       });
     } catch (err) {
       res.status(500).send({
